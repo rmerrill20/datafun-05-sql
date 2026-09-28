@@ -256,3 +256,384 @@ plot.box() method for creating box plots.
 2026-09-25 16:37:26 | INFO | P05 | ===================================
 2026-09-25 16:37:26 | INFO | P05 | END main() - Executed successfully!
 2026-09-25 16:37:26 | INFO | P05 | ===================================
+2026-09-27 21:59:15 | INFO | P05 | === RUN START ===
+2026-09-27 21:59:15 | INFO | P05 | project=P05 - PYTHON AND SQL
+2026-09-27 21:59:15 | INFO | P05 | repo_dir=datafun-05-sql
+2026-09-27 21:59:15 | INFO | P05 | python=3.14.7
+2026-09-27 21:59:15 | INFO | P05 | os=Windows 11
+2026-09-27 21:59:15 | INFO | P05 | shell=powershell
+2026-09-27 21:59:15 | INFO | P05 | cwd=.
+2026-09-27 21:59:15 | INFO | P05 | github_actions=False
+2026-09-27 21:59:15 | INFO | P05 | ===================================
+2026-09-27 21:59:15 | INFO | P05 | START main()
+2026-09-27 21:59:15 | INFO | P05 | ===================================
+2026-09-27 21:59:15 | INFO | P05 | -------------------------------
+2026-09-27 21:59:15 | INFO | P05 | 01. LOAD the related tables.
+2026-09-27 21:59:15 | INFO | P05 | -------------------------------
+2026-09-27 21:59:15 | INFO | P05 | regions file = data\retail\region.csv
+2026-09-27 21:59:15 | INFO | P05 | stores file = data\retail\store.csv
+2026-09-27 21:59:15 | INFO | P05 | employees file = data\retail\employee.csv
+2026-09-27 21:59:15 | INFO | P05 | sales file = data\retail\sales.csv
+2026-09-27 22:02:31 | INFO | P05 | === RUN START ===
+2026-09-27 22:02:31 | INFO | P05 | project=P05 - PYTHON AND SQL
+2026-09-27 22:02:31 | INFO | P05 | repo_dir=datafun-05-sql
+2026-09-27 22:02:31 | INFO | P05 | python=3.14.7
+2026-09-27 22:02:31 | INFO | P05 | os=Windows 11
+2026-09-27 22:02:31 | INFO | P05 | shell=powershell
+2026-09-27 22:02:31 | INFO | P05 | cwd=.
+2026-09-27 22:02:31 | INFO | P05 | github_actions=False
+2026-09-27 22:02:31 | INFO | P05 | ===================================
+2026-09-27 22:02:31 | INFO | P05 | START main()
+2026-09-27 22:02:31 | INFO | P05 | ===================================
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 01. LOAD the related tables.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | regions file = data\retail\region.csv
+2026-09-27 22:02:31 | INFO | P05 | stores file = data\retail\store.csv
+2026-09-27 22:02:31 | INFO | P05 | employees file = data\retail\employee.csv
+2026-09-27 22:02:31 | INFO | P05 | sales file = data\retail\sale.csv
+2026-09-27 22:02:31 | INFO | P05 | Related tables loaded successfully.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 02. INSPECT the grain and keys.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | Regions grain: one business region
+2026-09-27 22:02:31 | INFO | P05 | Stores grain: one store
+2026-09-27 22:02:31 | INFO | P05 | Employees grain: one employee
+2026-09-27 22:02:31 | INFO | P05 | Regions columns: ['region_id', 'region_name']
+2026-09-27 22:02:31 | INFO | P05 | Stores columns: ['store_id', 'store_name', 'region_id', 'store_type', 'square_feet']
+2026-09-27 22:02:31 | INFO | P05 | Employees columns: ['employee_id', 'employee_name', 'store_id', 'role', 'years_employed']
+2026-09-27 22:02:31 | INFO | P05 | 
+The data is stored in three related tables.
+
+One region can have many stores.
+The stores table uses region_id to identify each store's region.
+
+One store can have many employees.
+The employees table uses store_id to identify each employee's store.
+
+The shared keys connect information stored in different tables.
+
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 03. CREATE a SQLite database.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | SQLite database = data\retail\business.sqlite
+2026-09-27 22:02:31 | INFO | P05 | SQLite database connection created.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 04. LOAD the tables into SQLite.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | Related tables loaded into SQLite.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 05. QUERY across related tables with SQL.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 
+I want to compare the total number of items sold
+for each product group across all stores.
+
+The sales table contains the product group,
+number of items sold, and store_id.
+
+The store_id connects each sale to a store
+in the stores table.
+
+The result should have one row per product group.
+
+2026-09-27 22:02:31 | INFO | P05 | 
+SQL query:
+
+SELECT
+    s.product_group,
+    SUM(s.items_sold) AS total_items_sold
+FROM sales AS s
+JOIN stores AS st
+    ON s.store_id = st.store_id
+GROUP BY
+    s.product_group
+ORDER BY
+    total_items_sold DESC;
+
+2026-09-27 22:02:31 | INFO | P05 | 
+Query result:
+  product_group  total_items_sold
+0       Grocery               153
+1          Home               135
+2       Apparel                92
+3       Outdoor                89
+4   Electronics                65
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 06. VISUALIZE the query result with Python.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 
+The query result has one numeric value
+(employee count) for each store.
+
+A bar chart works for comparing
+a numeric value across named categories.
+Every pandas df has a
+plot.box() method for creating box plots.
+
+2026-09-27 22:02:31 | INFO | P05 | Chart saved successfully at docs\images\first-chart.png.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 07. SUMMARIZE what you found.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | CUSTOM OBSERVATIONS:
+    The SQL query connected information from
+    the regions, stores, and employees tables.
+
+    The result has one row per store.
+
+    I observed ...
+
+    Based on this result, I would next like to explore ...
+    
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | 08. DISPLAY the visualization.
+2026-09-27 22:02:31 | INFO | P05 | -------------------------------
+2026-09-27 22:02:31 | INFO | P05 | In a script, call plt.show() at the end to display all charts.
+2026-09-27 22:02:31 | INFO | P05 | Close all chart windows (with the close button) to continue.
+2026-09-27 22:03:42 | INFO | P05 | ===================================
+2026-09-27 22:03:42 | INFO | P05 | END main() - Executed successfully!
+2026-09-27 22:03:42 | INFO | P05 | ===================================
+2026-09-27 22:10:49 | INFO | P05 | === RUN START ===
+2026-09-27 22:10:49 | INFO | P05 | project=P05 - PYTHON AND SQL
+2026-09-27 22:10:49 | INFO | P05 | repo_dir=datafun-05-sql
+2026-09-27 22:10:49 | INFO | P05 | python=3.14.7
+2026-09-27 22:10:49 | INFO | P05 | os=Windows 11
+2026-09-27 22:10:49 | INFO | P05 | shell=powershell
+2026-09-27 22:10:49 | INFO | P05 | cwd=.
+2026-09-27 22:10:49 | INFO | P05 | github_actions=False
+2026-09-27 22:10:49 | INFO | P05 | ===================================
+2026-09-27 22:10:49 | INFO | P05 | START main()
+2026-09-27 22:10:49 | INFO | P05 | ===================================
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 01. LOAD the related tables.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | regions file = data\retail\region.csv
+2026-09-27 22:10:49 | INFO | P05 | stores file = data\retail\store.csv
+2026-09-27 22:10:49 | INFO | P05 | employees file = data\retail\employee.csv
+2026-09-27 22:10:49 | INFO | P05 | sales file = data\retail\sale.csv
+2026-09-27 22:10:49 | INFO | P05 | Related tables loaded successfully.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 02. INSPECT the grain and keys.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | Regions grain: one business region
+2026-09-27 22:10:49 | INFO | P05 | Stores grain: one store
+2026-09-27 22:10:49 | INFO | P05 | Employees grain: one employee
+2026-09-27 22:10:49 | INFO | P05 | Regions columns: ['region_id', 'region_name']
+2026-09-27 22:10:49 | INFO | P05 | Stores columns: ['store_id', 'store_name', 'region_id', 'store_type', 'square_feet']
+2026-09-27 22:10:49 | INFO | P05 | Employees columns: ['employee_id', 'employee_name', 'store_id', 'role', 'years_employed']
+2026-09-27 22:10:49 | INFO | P05 | 
+The data is stored in three related tables.
+
+One region can have many stores.
+The stores table uses region_id to identify each store's region.
+
+One store can have many employees.
+The employees table uses store_id to identify each employee's store.
+
+The shared keys connect information stored in different tables.
+
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 03. CREATE a SQLite database.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | SQLite database = data\retail\business.sqlite
+2026-09-27 22:10:49 | INFO | P05 | SQLite database connection created.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 04. LOAD the tables into SQLite.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | Related tables loaded into SQLite.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 05. QUERY across related tables with SQL.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 
+I want to compare the total number of items sold
+for each product group across all stores.
+
+The sales table contains the product group,
+number of items sold, and store_id.
+
+The store_id connects each sale to a store
+in the stores table.
+
+The result should have one row per product group.
+
+2026-09-27 22:10:49 | INFO | P05 | 
+SQL query:
+
+SELECT
+    s.product_group,
+    SUM(s.items_sold) AS total_items_sold
+FROM sales AS s
+JOIN stores AS st
+    ON s.store_id = st.store_id
+GROUP BY
+    s.product_group
+ORDER BY
+    total_items_sold DESC;
+
+2026-09-27 22:10:49 | INFO | P05 | 
+Query result:
+  product_group  total_items_sold
+0       Grocery               153
+1          Home               135
+2       Apparel                92
+3       Outdoor                89
+4   Electronics                65
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 06. VISUALIZE the query result with Python.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 
+The query result has one numeric value
+(total_items_sold) for each named category (product_group).
+
+A bar chart works well for comparing
+a numeric value across named categories.
+
+2026-09-27 22:10:49 | INFO | P05 | Chart saved successfully at docs\images\first-chart.png.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 07. SUMMARIZE what you found.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | CUSTOM OBSERVATIONS:
+    The SQL query connected the sales and stores tables
+    using the store_id field.
+
+    The result has one row per product group and shows
+    the total number otems sold across all stores.
+
+    I observed that Grocery had the highest number of
+    items sold, while Electronics had the lowest number of items sold.
+
+    The total number of products sold across all product groups was 534.
+
+        Based on this result, I would next like to explore how the
+        product groups differ across indivudal stores.
+    
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | 08. DISPLAY the visualization.
+2026-09-27 22:10:49 | INFO | P05 | -------------------------------
+2026-09-27 22:10:49 | INFO | P05 | In a script, call plt.show() at the end to display all charts.
+2026-09-27 22:10:49 | INFO | P05 | Close all chart windows (with the close button) to continue.
+2026-09-27 22:10:52 | INFO | P05 | ===================================
+2026-09-27 22:10:52 | INFO | P05 | END main() - Executed successfully!
+2026-09-27 22:10:52 | INFO | P05 | ===================================
+2026-09-27 22:17:49 | INFO | P05 | === RUN START ===
+2026-09-27 22:17:49 | INFO | P05 | project=P05 - PYTHON AND SQL
+2026-09-27 22:17:49 | INFO | P05 | repo_dir=datafun-05-sql
+2026-09-27 22:17:49 | INFO | P05 | python=3.14.7
+2026-09-27 22:17:49 | INFO | P05 | os=Windows 11
+2026-09-27 22:17:49 | INFO | P05 | shell=powershell
+2026-09-27 22:17:49 | INFO | P05 | cwd=.
+2026-09-27 22:17:49 | INFO | P05 | github_actions=False
+2026-09-27 22:17:49 | INFO | P05 | ===================================
+2026-09-27 22:17:49 | INFO | P05 | START main()
+2026-09-27 22:17:49 | INFO | P05 | ===================================
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 01. LOAD the related tables.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | regions file = data\retail\region.csv
+2026-09-27 22:17:49 | INFO | P05 | stores file = data\retail\store.csv
+2026-09-27 22:17:49 | INFO | P05 | employees file = data\retail\employee.csv
+2026-09-27 22:17:49 | INFO | P05 | sales file = data\retail\sale.csv
+2026-09-27 22:17:49 | INFO | P05 | Related tables loaded successfully.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 02. INSPECT the grain and keys.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | Regions grain: one business region
+2026-09-27 22:17:49 | INFO | P05 | Stores grain: one store
+2026-09-27 22:17:49 | INFO | P05 | Employees grain: one employee
+2026-09-27 22:17:49 | INFO | P05 | Regions columns: ['region_id', 'region_name']
+2026-09-27 22:17:49 | INFO | P05 | Stores columns: ['store_id', 'store_name', 'region_id', 'store_type', 'square_feet']
+2026-09-27 22:17:49 | INFO | P05 | Employees columns: ['employee_id', 'employee_name', 'store_id', 'role', 'years_employed']
+2026-09-27 22:17:49 | INFO | P05 | 
+The data is stored in four related tables.
+
+One region can have many stores.
+The stores table uses region_id to identify each store's region.
+
+One store can have many employees.
+The employees table uses store_id to identify each employee's store.
+
+The shared keys connect information stored in different tables.
+
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 03. CREATE a SQLite database.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | SQLite database = data\retail\business.sqlite
+2026-09-27 22:17:49 | INFO | P05 | SQLite database connection created.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 04. LOAD the tables into SQLite.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | Related tables loaded into SQLite.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 05. QUERY across related tables with SQL.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 
+I want to compare the total number of items sold
+for each product group across all stores.
+
+The sales table contains the product group,
+number of items sold, and store_id.
+
+The store_id connects each sale to a store
+in the stores table.
+
+The result should have one row per product group.
+
+2026-09-27 22:17:49 | INFO | P05 | 
+SQL query:
+
+SELECT
+    s.product_group,
+    SUM(s.items_sold) AS total_items_sold
+FROM sales AS s
+JOIN stores AS st
+    ON s.store_id = st.store_id
+GROUP BY
+    s.product_group
+ORDER BY
+    total_items_sold DESC;
+
+2026-09-27 22:17:49 | INFO | P05 | 
+Query result:
+  product_group  total_items_sold
+0       Grocery               153
+1          Home               135
+2       Apparel                92
+3       Outdoor                89
+4   Electronics                65
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 06. VISUALIZE the query result with Python.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 
+The query result has one numeric value
+(total_items_sold) for each named category (product_group).
+
+A bar chart works well for comparing
+a numeric value across named categories.
+
+2026-09-27 22:17:49 | INFO | P05 | Chart saved successfully at docs\images\first-chart.png.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 07. SUMMARIZE what you found.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | CUSTOM OBSERVATIONS:
+    The SQL query connected the sales and stores tables
+    using the store_id field.
+
+    The result has one row per product group and shows
+    the total number of items sold across all stores.
+
+    I observed that Grocery had the highest number of
+    items sold, while Electronics had the lowest number of items sold.
+
+    The total number of items sold across all product groups was 534.
+
+    Based on this result, I would next like to explore how the
+    product groups differ across individual stores.
+    
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | 08. DISPLAY the visualization.
+2026-09-27 22:17:49 | INFO | P05 | -------------------------------
+2026-09-27 22:17:49 | INFO | P05 | In a script, call plt.show() at the end to display all charts.
+2026-09-27 22:17:49 | INFO | P05 | Close all chart windows (with the close button) to continue.
+2026-09-27 22:17:51 | INFO | P05 | ===================================
+2026-09-27 22:17:51 | INFO | P05 | END main() - Executed successfully!
+2026-09-27 22:17:51 | INFO | P05 | ===================================

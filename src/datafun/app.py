@@ -90,6 +90,7 @@ DATA_DIR: Final[Path] = Path("data") / "retail"
 REGION_FILE: Final[Path] = DATA_DIR / "region.csv"
 STORE_FILE: Final[Path] = DATA_DIR / "store.csv"
 EMPLOYEE_FILE: Final[Path] = DATA_DIR / "employee.csv"
+SALES_FILE: Final[Path] = DATA_DIR / "sale.csv"
 
 # === LOCATE THE SQLITE DATABASE ===
 
@@ -109,7 +110,7 @@ EMPLOYEE_GRAIN: Final[str] = "one employee"
 # === DESCRIBE THE TABLE RELATIONSHIPS ===
 
 RELATIONSHIP_DECISION: Final[str] = r"""
-The data is stored in three related tables.
+The data is stored in four related tables.
 
 One region can have many stores.
 The stores table uses region_id to identify each store's region.
@@ -123,44 +124,41 @@ The shared keys connect information stored in different tables.
 # === DEFINE THE ANALYTICAL QUESTION ===
 
 CUSTOM_QUERY_DECISION: Final[str] = r"""
-I want to compare the number of employees working at each store.
-The result should have one row per store.
+I want to compare the total number of items sold
+for each product group across all stores.
 
-The information I need requires all three tables:
- - region name is in regions,
- - store name is in stores,
- - employee info is in employees.
+The sales table contains the product group,
+number of items sold, and store_id.
+
+The store_id connects each sale to a store
+in the stores table.
+
+The result should have one row per product group.
 """
 
 # === WRITE THE SQL QUERY ===
 
 CUSTOM_SQL_QUERY: Final[str] = """
 SELECT
-    r.region_name,
-    s.store_name,
-    COUNT(e.employee_id) AS employee_count
-FROM regions AS r
-JOIN stores AS s
-    ON r.region_id = s.region_id
-LEFT JOIN employees AS e
-    ON s.store_id = e.store_id
+    s.product_group,
+    SUM(s.items_sold) AS total_items_sold
+FROM sales AS s
+JOIN stores AS st
+    ON s.store_id = st.store_id
 GROUP BY
-    r.region_name,
-    s.store_name
+    s.product_group
 ORDER BY
-    employee_count DESC;
+    total_items_sold DESC;
 """
 
 # === CHOOSE A VISUALIZATION ===
 
 CUSTOM_CHART_DECISION: Final[str] = r"""
 The query result has one numeric value
-(employee count) for each store.
+(total_items_sold) for each named category (product_group).
 
-A bar chart works for comparing
+A bar chart works well for comparing
 a numeric value across named categories.
-Every pandas df has a
-plot.box() method for creating box plots.
 """
 
 
@@ -188,10 +186,12 @@ def main() -> None:
     log_path(LOG, "regions file", path=REGION_FILE)
     log_path(LOG, "stores file", path=STORE_FILE)
     log_path(LOG, "employees file", path=EMPLOYEE_FILE)
+    log_path(LOG, "sales file", path=SALES_FILE)
 
     regions_df: pd.DataFrame = pd.read_csv(REGION_FILE)
     stores_df: pd.DataFrame = pd.read_csv(STORE_FILE)
     employees_df: pd.DataFrame = pd.read_csv(EMPLOYEE_FILE)
+    sales_df: pd.DataFrame = pd.read_csv(SALES_FILE)
 
     LOG.info("Related tables loaded successfully.")
 
@@ -244,6 +244,13 @@ def main() -> None:
         index=False,
     )
 
+    sales_df.to_sql(
+        "sales",
+        connection,
+        if_exists="replace",
+        index=False,
+    )
+
     LOG.info("Related tables loaded into SQLite.")
 
     LOG.info("-------------------------------")
@@ -266,21 +273,21 @@ def main() -> None:
 
     LOG.info(CUSTOM_CHART_DECISION)
 
-    employee_ax = result_df.plot.bar(
-        x="store_name",
-        y="employee_count",
+    sales_ax = result_df.plot.bar(
+        x="product_group",
+        y="total_items_sold",
         legend=False,
     )
 
     # CUSTOM: The analyst can customize the returned Matplotlib Axes object.
-    employee_ax.set_title("Employees by Store")
-    employee_ax.set_xlabel("Store")
-    employee_ax.set_ylabel("Number of Employees")
+    sales_ax.set_title("Items Sold by Product Group")
+    sales_ax.set_xlabel("Product Group")
+    sales_ax.set_ylabel("Total Items Sold")
 
     CHART_DIR.mkdir(parents=True, exist_ok=True)
 
     save_chart(
-        employee_ax,
+        sales_ax,
         CHART_PATH,
     )
 
@@ -296,14 +303,19 @@ def main() -> None:
     # in a simple multi-line raw string.
 
     LOG.info(r"""CUSTOM OBSERVATIONS:
-    The SQL query connected information from
-    the regions, stores, and employees tables.
+    The SQL query connected the sales and stores tables
+    using the store_id field.
 
-    The result has one row per store.
+    The result has one row per product group and shows
+    the total number of items sold across all stores.
 
-    I observed ...
+    I observed that Grocery had the highest number of
+    items sold, while Electronics had the lowest number of items sold.
 
-    Based on this result, I would next like to explore ...
+    The total number of items sold across all product groups was 534.
+
+    Based on this result, I would next like to explore how the
+    product groups differ across individual stores.
     """)
 
     LOG.info("-------------------------------")
